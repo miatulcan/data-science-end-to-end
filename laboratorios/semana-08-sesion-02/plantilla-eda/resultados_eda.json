@@ -1,0 +1,126 @@
+{
+  "objetivo": "UNITS",
+  "filas": 59181090,
+  "columnas": 40,
+  "fecha_min": "2011-01-29",
+  "fecha_max": "2016-05-22",
+  "faltantes": {
+    "DATE_KEY": 0,
+    "DATE": 0,
+    "D": 0,
+    "D_NUM": 0,
+    "ITEM_ID": 0,
+    "DEPT_ID": 0,
+    "CAT_ID": 0,
+    "STORE_ID": 0,
+    "STATE_ID": 0,
+    "UNITS": 0,
+    "SELL_PRICE": 12299413,
+    "REVENUE": 12299413,
+    "WM_YR_WK": 0,
+    "WM_FISCAL_YEAR": 0,
+    "WM_WEEK_OF_YEAR": 0,
+    "WEEK_SEQ": 0,
+    "WEEKDAY": 0,
+    "WDAY": 0,
+    "IS_WEEKEND": 0,
+    "DAY_OF_MONTH": 0,
+    "MONTH": 0,
+    "QUARTER": 0,
+    "YEAR": 0,
+    "EVENT_NAME_1": 54363670,
+    "EVENT_TYPE_1": 54363670,
+    "EVENT_NAME_2": 59059130,
+    "EVENT_TYPE_2": 59059130,
+    "IS_EVENT_DAY": 0,
+    "N_EVENTS": 0,
+    "IS_CHRISTMAS_CLOSED": 0,
+    "DATE_LY_364": 0,
+    "DATE_KEY_LY_364": 11098360,
+    "IS_SNAP": 0,
+    "IS_PRE_LAUNCH": 0,
+    "IS_STORE_CLOSED": 0,
+    "IS_SALES_SPIKE": 0,
+    "IS_SUSPECTED_STOCKOUT_CONSERVATIVE": 0,
+    "IS_SUSPECTED_STOCKOUT_NB": 0,
+    "WEEK_IDX": 0,
+    "_LOADED_AT": 0
+  },
+  "minimo": 0.0,
+  "maximo": 763.0,
+  "media": 1.1308878055473464,
+  "mediana": 0.0,
+  "q1": 0.0,
+  "q3": 1.0,
+  "iqr": 1.0,
+  "limite_inferior": -1.5,
+  "limite_superior": 2.5,
+  "atipicos": 7037502,
+  "conteos": {
+    "ceros": 40241819,
+    "negativos": 0,
+    "pre_lanzamiento": 12299413,
+    "ceros_pre_lanzamiento": 12299413,
+    "cierre": 6098,
+    "ceros_cierre": 5996,
+    "stockout": 1946313,
+    "ceros_stockout": 1946313,
+    "precio_faltante_activo": 0,
+    "ingresos_comparables": 46881677,
+    "ingresos_inconsistentes": 0
+  },
+  "muestra_filas": 59181,
+  "correlacion_precio_muestra": -0.14925389026015648,
+  "tiendas": {
+    "CA_1": {
+      "count": 5918109.0,
+      "sum": 7832248.0,
+      "promedio_unidades": 1.3234376048159977
+    },
+    "CA_2": {
+      "count": 5918109.0,
+      "sum": 5818395.0,
+      "promedio_unidades": 0.983151036927505
+    },
+    "CA_3": {
+      "count": 5918109.0,
+      "sum": 11363540.0,
+      "promedio_unidades": 1.9201302307882466
+    },
+    "CA_4": {
+      "count": 5918109.0,
+      "sum": 4182534.0,
+      "promedio_unidades": 0.7067348708852778
+    },
+    "TX_1": {
+      "count": 5918109.0,
+      "sum": 5692823.0,
+      "promedio_unidades": 0.9619327727826574
+    },
+    "TX_2": {
+      "count": 5918109.0,
+      "sum": 7329642.0,
+      "promedio_unidades": 1.23851081485657
+    },
+    "TX_3": {
+      "count": 5918109.0,
+      "sum": 6205940.0,
+      "promedio_unidades": 1.0486356368225054
+    },
+    "WI_1": {
+      "count": 5918109.0,
+      "sum": 5261506.0,
+      "promedio_unidades": 0.8890518914065286
+    },
+    "WI_2": {
+      "count": 5918109.0,
+      "sum": 6697988.0,
+      "promedio_unidades": 1.131778410975533
+    },
+    "WI_3": {
+      "count": 5918109.0,
+      "sum": 6542557.0,
+      "promedio_unidades": 1.1055147852126415
+    }
+  }
+}
