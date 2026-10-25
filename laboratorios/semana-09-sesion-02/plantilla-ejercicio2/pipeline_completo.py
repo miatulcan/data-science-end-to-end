@@ -1,41 +1,92 @@
+﻿"""Ejercicios 1 y 2 adaptados a la muestra del proyecto de ventas."""
+from pathlib import Path
+import importlib.util
+import json
+
+import numpy as np
 import pandas as pd
-from sklearn.compose import ColumnTransformer
-from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-viajes = pd.read_csv("../starter/viajes_features.csv")
+CARPETA = Path(__file__).resolve().parent
+spec = importlib.util.spec_from_file_location('pipeline_proyecto', CARPETA.parent / 'plantilla-pipeline' / 'pipeline_proyecto.py')
+proyecto = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(proyecto)
 
-NUMERICAS = ["distancia_km", "pasajeros"]
-YA_LISTAS = ["hora_sin", "hora_cos", "es_fin_de_semana", "es_hora_pico", "es_tarifa_fija"]
-CATEGORICAS = ["zona_origen", "zona_destino", "metodo_pago"]
 
-X = viajes[NUMERICAS + YA_LISTAS + CATEGORICAS]
-y = viajes["tarifa"]
+def ejecutar():
+    # TODO 1 resuelto: división por fecha, porque se predice el futuro.
+    datos, X_ent, X_prueba, y_ent, y_prueba, corte = proyecto.cargar_y_dividir()
+    # TODO 2: tres grupos: imputación/escalado, imputación/one-hot, passthrough.
+    preparacion = proyecto.construir_preparacion()
+    # TODO 3: fit solo en entrenamiento; prueba únicamente se transforma.
+    ent_listo = preparacion.fit_transform(X_ent)
+    prueba_lista = preparacion.transform(X_prueba)
+    nombres = preparacion.get_feature_names_out()
+    # TODO 4: medianas aprendidas frente a entrenamiento y muestra completa.
+    medianas = preparacion.named_transformers_['numericas'].named_steps['imputar'].statistics_
+    assert np.allclose(medianas, X_ent[proyecto.NUMERICAS].median())
+    # TODO 5: una combinación de tienda y categoría nunca vista.
+    nuevo = X_prueba.iloc[[0]].copy()
+    nuevo['tienda_categoria'] = 'TIENDA_NUEVA__FOODS'
+    encoder = preparacion.named_transformers_['categoricas'].named_steps['codificar']
+    assert 'TIENDA_NUEVA__FOODS' not in encoder.categories_[0]
+    nuevo_listo = preparacion.transform(nuevo)
+    mascara = np.array([n.startswith('categoricas__tienda_categoria_') for n in nombres])
+    activas = int(np.count_nonzero(nuevo_listo[0, mascara]))
+    assert activas == 0 and nuevo_listo.shape[1] == ent_listo.shape[1]
+    # Comprobación artificial separada: la muestra no tiene faltantes en estas
+    # entradas. No se alteran sus datos ni sus estadísticas para simularlos.
+    con_faltantes = X_prueba.iloc[[0]].copy()
+    for columna in proyecto.NUMERICAS + proyecto.CATEGORICAS:
+        con_faltantes[columna] = np.nan
+    faltantes_listo = preparacion.transform(con_faltantes)
+    escalador = preparacion.named_transformers_['numericas'].named_steps['escalar']
+    esperados = (medianas - escalador.mean_) / escalador.scale_
+    assert np.isfinite(faltantes_listo).all()
+    assert np.allclose(faltantes_listo[0, :len(proyecto.NUMERICAS)], esperados)
+    # Contraste real con get_dummies aplicado independientemente.
+    dummies_ent = pd.get_dummies(X_ent[proyecto.CATEGORICAS], dtype=int)
+    dummies_nuevo = pd.get_dummies(nuevo[proyecto.CATEGORICAS], dtype=int)
 
-# TODO 1: divide X e y en entrenamiento (80%) y prueba (20%), con
-# random_state=42.
+    # Ejercicio 1: comparación didáctica; la variante con fuga NO se recomienda.
+    # Para estabilidad numérica con intercepto, dejar una categoría de referencia.
+    def preparacion_modelo():
+        prep = proyecto.construir_preparacion()
+        prep.set_params(categoricas__codificar__drop='first')
+        return prep
 
-# TODO 2: arma un Pipeline para las columnas NUMERICAS (imputar con la
-# mediana, despues escalar) y otro para las CATEGORICAS (imputar con el
-# valor mas frecuente, despues OneHotEncoder con handle_unknown="ignore" y
-# sparse_output=False). Juntalos en un ColumnTransformer llamado
-# "preparacion", con las columnas YA_LISTAS pasando sin cambios
-# ("passthrough").
+    correcto = Pipeline([('preparar', preparacion_modelo()), ('modelo', LinearRegression())])
+    correcto.fit(X_ent, y_ent)
+    mae_correcto = mean_absolute_error(y_prueba, correcto.predict(X_prueba))
+    # ERROR DELIBERADO: el fit conoce las filas futuras de la muestra.
+    con_fuga = preparacion_modelo()
+    con_fuga.fit(datos[proyecto.NUMERICAS + proyecto.CATEGORICAS + proyecto.YA_LISTAS])
+    modelo_fuga = LinearRegression().fit(con_fuga.transform(X_ent), y_ent)
+    mae_fuga = mean_absolute_error(y_prueba, modelo_fuga.predict(con_fuga.transform(X_prueba)))
+    resumen = dict(
+        muestra_filas=len(datos), fecha_corte=corte.date().isoformat(),
+        forma_entrenamiento=list(ent_listo.shape), forma_prueba=list(prueba_lista.shape),
+        columnas_salida=nombres.tolist(),
+        grupos=dict(numericas=len(proyecto.NUMERICAS), categoricas=int(mascara.sum()), ya_listas=len(proyecto.YA_LISTAS)),
+        medianas_aprendidas=dict(zip(proyecto.NUMERICAS, medianas.tolist())),
+        medianas_entrenamiento=X_ent[proyecto.NUMERICAS].median().to_dict(),
+        medianas_toda_muestra=datos[proyecto.NUMERICAS].median().to_dict(),
+        categoria_nueva='TIENDA_NUEVA__FOODS', forma_nuevo=list(nuevo_listo.shape),
+        columnas_categoricas_activas_nuevo=activas,
+        columnas_dummies_entrenamiento=len(dummies_ent.columns),
+        columnas_dummies_nuevo=dummies_nuevo.columns.tolist(),
+        esquema_dummies_coincide=dummies_ent.columns.equals(dummies_nuevo.columns),
+        prueba_faltantes_artificiales='Transformación finita; se usaron las medianas de entrenamiento',
+        mae_correcto=float(mae_correcto), mae_con_fuga_didactica=float(mae_fuga),
+        diferencia_mae=float(mae_correcto - mae_fuga),
+        nota='Comparación didáctica; MAE sobre muestra sesgada, no evaluación definitiva del proyecto',
+    )
+    (CARPETA / 'resultados_ejercicios.json').write_text(json.dumps(resumen, indent=2, ensure_ascii=False), encoding='utf-8')
+    print(json.dumps(resumen, indent=2, ensure_ascii=False))
+    return resumen
 
-# TODO 3: aprende la preparacion solo con entrenamiento y transforma
-# entrenamiento y prueba. Imprime cuantas columnas quedan.
 
-# TODO 4: imprime las medianas que aprendio el imputador de numericas
-# (atributo statistics_) junto a las medianas de entrenamiento y las de
-# todo el dataset.
-
-# TODO 5: transforma el viaje nuevo de abajo, que sale de una zona que el
-# entrenamiento nunca vio, e imprime cuantas columnas de zona_origen
-# quedan en 1.
-nuevo = pd.DataFrame([{
-    "distancia_km": 9.0, "pasajeros": 1, "hora_sin": 0.5, "hora_cos": -0.866,
-    "es_fin_de_semana": 0, "es_hora_pico": 1, "es_tarifa_fija": 0,
-    "zona_origen": "Bronx", "zona_destino": "Midtown", "metodo_pago": "tarjeta",
-}])
+if __name__ == '__main__':
+    ejecutar()

@@ -1,0 +1,266 @@
+{
+  "archivo": "data/processed/obt_sales.csv",
+  "objetivo": "UNITS",
+  "limite_lectura": 100000,
+  "muestra_filas": 20000,
+  "semilla": 42,
+  "metodo": "Aleatoria dentro de las primeras 100000 filas; no es muestra global",
+  "fecha_min": "2012-09-27",
+  "fecha_max": "2016-04-06",
+  "tiendas": [
+    "CA_1",
+    "CA_2",
+    "CA_3",
+    "CA_4",
+    "TX_1",
+    "TX_2",
+    "TX_3",
+    "WI_1",
+    "WI_2",
+    "WI_3"
+  ],
+  "precio_no_disponible": [
+    {
+      "precio_no_disponible": 0,
+      "count": 18551,
+      "mean": 1.401595601315293,
+      "min": 0,
+      "max": 140
+    },
+    {
+      "precio_no_disponible": 1,
+      "count": 1449,
+      "mean": 0.0,
+      "min": 0,
+      "max": 0
+    }
+  ],
+  "tienda_categoria": [
+    {
+      "tienda_categoria": "CA_1__FOODS",
+      "count": 899,
+      "mean": 1.7630700778642936,
+      "min": 0,
+      "max": 51
+    },
+    {
+      "tienda_categoria": "CA_1__HOBBIES",
+      "count": 371,
+      "mean": 0.7978436657681941,
+      "min": 0,
+      "max": 27
+    },
+    {
+      "tienda_categoria": "CA_1__HOUSEHOLD",
+      "count": 633,
+      "mean": 0.9873617693522907,
+      "min": 0,
+      "max": 20
+    },
+    {
+      "tienda_categoria": "CA_2__FOODS",
+      "count": 823,
+      "mean": 1.62089914945322,
+      "min": 0,
+      "max": 52
+    },
+    {
+      "tienda_categoria": "CA_2__HOBBIES",
+      "count": 300,
+      "mean": 0.61,
+      "min": 0,
+      "max": 26
+    },
+    {
+      "tienda_categoria": "CA_2__HOUSEHOLD",
+      "count": 673,
+      "mean": 0.9301634472511144,
+      "min": 0,
+      "max": 18
+    },
+    {
+      "tienda_categoria": "CA_3__FOODS",
+      "count": 816,
+      "mean": 2.7279411764705883,
+      "min": 0,
+      "max": 82
+    },
+    {
+      "tienda_categoria": "CA_3__HOBBIES",
+      "count": 355,
+      "mean": 0.6816901408450704,
+      "min": 0,
+      "max": 12
+    },
+    {
+      "tienda_categoria": "CA_3__HOUSEHOLD",
+      "count": 614,
+      "mean": 1.6514657980456027,
+      "min": 0,
+      "max": 33
+    },
+    {
+      "tienda_categoria": "CA_4__FOODS",
+      "count": 844,
+      "mean": 1.245260663507109,
+      "min": 0,
+      "max": 27
+    },
+    {
+      "tienda_categoria": "CA_4__HOBBIES",
+      "count": 327,
+      "mean": 0.5932721712538226,
+      "min": 0,
+      "max": 22
+    },
+    {
+      "tienda_categoria": "CA_4__HOUSEHOLD",
+      "count": 606,
+      "mean": 0.4636963696369637,
+      "min": 0,
+      "max": 8
+    },
+    {
+      "tienda_categoria": "TX_1__FOODS",
+      "count": 814,
+      "mean": 1.694103194103194,
+      "min": 0,
+      "max": 140
+    },
+    {
+      "tienda_categoria": "TX_1__HOBBIES",
+      "count": 338,
+      "mean": 0.46745562130177515,
+      "min": 0,
+      "max": 40
+    },
+    {
+      "tienda_categoria": "TX_1__HOUSEHOLD",
+      "count": 599,
+      "mean": 0.7729549248747913,
+      "min": 0,
+      "max": 19
+    },
+    {
+      "tienda_categoria": "TX_2__FOODS",
+      "count": 878,
+      "mean": 1.75626423690205,
+      "min": 0,
+      "max": 82
+    },
+    {
+      "tienda_categoria": "TX_2__HOBBIES",
+      "count": 410,
+      "mean": 0.624390243902439,
+      "min": 0,
+      "max": 12
+    },
+    {
+      "tienda_categoria": "TX_2__HOUSEHOLD",
+      "count": 788,
+      "mean": 0.9441624365482234,
+      "min": 0,
+      "max": 18
+    },
+    {
+      "tienda_categoria": "TX_3__FOODS",
+      "count": 1095,
+      "mean": 1.7506849315068493,
+      "min": 0,
+      "max": 78
+    },
+    {
+      "tienda_categoria": "TX_3__HOBBIES",
+      "count": 450,
+      "mean": 0.7133333333333334,
+      "min": 0,
+      "max": 45
+    },
+    {
+      "tienda_categoria": "TX_3__HOUSEHOLD",
+      "count": 807,
+      "mean": 0.9553903345724907,
+      "min": 0,
+      "max": 19
+    },
+    {
+      "tienda_categoria": "WI_1__FOODS",
+      "count": 1041,
+      "mean": 1.7598463016330452,
+      "min": 0,
+      "max": 37
+    },
+    {
+      "tienda_categoria": "WI_1__HOBBIES",
+      "count": 408,
+      "mean": 0.7818627450980392,
+      "min": 0,
+      "max": 17
+    },
+    {
+      "tienda_categoria": "WI_1__HOUSEHOLD",
+      "count": 853,
+      "mean": 0.7338804220398594,
+      "min": 0,
+      "max": 13
+    },
+    {
+      "tienda_categoria": "WI_2__FOODS",
+      "count": 1145,
+      "mean": 1.8951965065502183,
+      "min": 0,
+      "max": 116
+    },
+    {
+      "tienda_categoria": "WI_2__HOBBIES",
+      "count": 443,
+      "mean": 0.5237020316027088,
+      "min": 0,
+      "max": 13
+    },
+    {
+      "tienda_categoria": "WI_2__HOUSEHOLD",
+      "count": 817,
+      "mean": 1.2839657282741739,
+      "min": 0,
+      "max": 33
+    },
+    {
+      "tienda_categoria": "WI_3__FOODS",
+      "count": 877,
+      "mean": 2.0661345496009123,
+      "min": 0,
+      "max": 100
+    },
+    {
+      "tienda_categoria": "WI_3__HOBBIES",
+      "count": 341,
+      "mean": 0.45161290322580644,
+      "min": 0,
+      "max": 11
+    },
+    {
+      "tienda_categoria": "WI_3__HOUSEHOLD",
+      "count": 635,
+      "mean": 0.9433070866141732,
+      "min": 0,
+      "max": 26
+    }
+  ],
+  "es_fin_de_semana": [
+    {
+      "es_fin_de_semana": 0,
+      "count": 14522,
+      "mean": 1.238328053987054,
+      "min": 0,
+      "max": 140
+    },
+    {
+      "es_fin_de_semana": 1,
+      "count": 5478,
+      "mean": 1.4636728733114275,
+      "min": 0,
+      "max": 100
+    }
+  ]
+}

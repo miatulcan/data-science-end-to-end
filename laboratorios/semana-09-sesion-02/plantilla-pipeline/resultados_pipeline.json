@@ -1,0 +1,101 @@
+{
+  "sklearn_version": "1.9.1",
+  "objetivo": "UNITS",
+  "muestra_filas": 20000,
+  "limite_lectura": 100000,
+  "semilla": 42,
+  "fechas_distintas": 20,
+  "fecha_corte": "2016-04-03",
+  "entrenamiento_hasta": "2016-04-02",
+  "prueba_desde": "2016-04-03",
+  "forma_entrenamiento": [
+    16838,
+    35
+  ],
+  "forma_prueba": [
+    3162,
+    35
+  ],
+  "numericas": [
+    "YEAR",
+    "D_NUM"
+  ],
+  "categoricas": [
+    "tienda_categoria"
+  ],
+  "ya_listas": [
+    "es_fin_de_semana",
+    "dia_sin",
+    "dia_cos"
+  ],
+  "columnas_salida": [
+    "numericas__YEAR",
+    "numericas__D_NUM",
+    "categoricas__tienda_categoria_CA_1__FOODS",
+    "categoricas__tienda_categoria_CA_1__HOBBIES",
+    "categoricas__tienda_categoria_CA_1__HOUSEHOLD",
+    "categoricas__tienda_categoria_CA_2__FOODS",
+    "categoricas__tienda_categoria_CA_2__HOBBIES",
+    "categoricas__tienda_categoria_CA_2__HOUSEHOLD",
+    "categoricas__tienda_categoria_CA_3__FOODS",
+    "categoricas__tienda_categoria_CA_3__HOBBIES",
+    "categoricas__tienda_categoria_CA_3__HOUSEHOLD",
+    "categoricas__tienda_categoria_CA_4__FOODS",
+    "categoricas__tienda_categoria_CA_4__HOBBIES",
+    "categoricas__tienda_categoria_CA_4__HOUSEHOLD",
+    "categoricas__tienda_categoria_TX_1__FOODS",
+    "categoricas__tienda_categoria_TX_1__HOBBIES",
+    "categoricas__tienda_categoria_TX_1__HOUSEHOLD",
+    "categoricas__tienda_categoria_TX_2__FOODS",
+    "categoricas__tienda_categoria_TX_2__HOBBIES",
+    "categoricas__tienda_categoria_TX_2__HOUSEHOLD",
+    "categoricas__tienda_categoria_TX_3__FOODS",
+    "categoricas__tienda_categoria_TX_3__HOBBIES",
+    "categoricas__tienda_categoria_TX_3__HOUSEHOLD",
+    "categoricas__tienda_categoria_WI_1__FOODS",
+    "categoricas__tienda_categoria_WI_1__HOBBIES",
+    "categoricas__tienda_categoria_WI_1__HOUSEHOLD",
+    "categoricas__tienda_categoria_WI_2__FOODS",
+    "categoricas__tienda_categoria_WI_2__HOBBIES",
+    "categoricas__tienda_categoria_WI_2__HOUSEHOLD",
+    "categoricas__tienda_categoria_WI_3__FOODS",
+    "categoricas__tienda_categoria_WI_3__HOBBIES",
+    "categoricas__tienda_categoria_WI_3__HOUSEHOLD",
+    "ya_listas__es_fin_de_semana",
+    "ya_listas__dia_sin",
+    "ya_listas__dia_cos"
+  ],
+  "faltantes_entrenamiento": {
+    "YEAR": 0,
+    "D_NUM": 0,
+    "tienda_categoria": 0,
+    "es_fin_de_semana": 0,
+    "dia_sin": 0,
+    "dia_cos": 0
+  },
+  "medianas_aprendidas": {
+    "YEAR": 2016.0,
+    "D_NUM": 1830.0
+  },
+  "medianas_entrenamiento": {
+    "YEAR": 2016.0,
+    "D_NUM": 1830.0
+  },
+  "medianas_toda_muestra": {
+    "YEAR": 2016.0,
+    "D_NUM": 1830.0
+  },
+  "medias_escalador": {
+    "YEAR": 2014.8183869818267,
+    "D_NUM": 1492.3070435918755
+  },
+  "medias_entrenamiento": {
+    "YEAR": 2014.8183869818267,
+    "D_NUM": 1492.3070435918755
+  },
+  "medias_toda_muestra": {
+    "YEAR": 2015.0052,
+    "D_NUM": 1555.71155
+  },
+  "comprobaciones": "Medianas y medias de entrenamiento; fechas separadas; mismo esquema; matrices finitas"
+}

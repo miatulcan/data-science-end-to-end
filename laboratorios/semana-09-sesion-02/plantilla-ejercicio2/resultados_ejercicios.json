@@ -1,0 +1,82 @@
+{
+  "muestra_filas": 20000,
+  "fecha_corte": "2016-04-03",
+  "forma_entrenamiento": [
+    16838,
+    35
+  ],
+  "forma_prueba": [
+    3162,
+    35
+  ],
+  "columnas_salida": [
+    "numericas__YEAR",
+    "numericas__D_NUM",
+    "categoricas__tienda_categoria_CA_1__FOODS",
+    "categoricas__tienda_categoria_CA_1__HOBBIES",
+    "categoricas__tienda_categoria_CA_1__HOUSEHOLD",
+    "categoricas__tienda_categoria_CA_2__FOODS",
+    "categoricas__tienda_categoria_CA_2__HOBBIES",
+    "categoricas__tienda_categoria_CA_2__HOUSEHOLD",
+    "categoricas__tienda_categoria_CA_3__FOODS",
+    "categoricas__tienda_categoria_CA_3__HOBBIES",
+    "categoricas__tienda_categoria_CA_3__HOUSEHOLD",
+    "categoricas__tienda_categoria_CA_4__FOODS",
+    "categoricas__tienda_categoria_CA_4__HOBBIES",
+    "categoricas__tienda_categoria_CA_4__HOUSEHOLD",
+    "categoricas__tienda_categoria_TX_1__FOODS",
+    "categoricas__tienda_categoria_TX_1__HOBBIES",
+    "categoricas__tienda_categoria_TX_1__HOUSEHOLD",
+    "categoricas__tienda_categoria_TX_2__FOODS",
+    "categoricas__tienda_categoria_TX_2__HOBBIES",
+    "categoricas__tienda_categoria_TX_2__HOUSEHOLD",
+    "categoricas__tienda_categoria_TX_3__FOODS",
+    "categoricas__tienda_categoria_TX_3__HOBBIES",
+    "categoricas__tienda_categoria_TX_3__HOUSEHOLD",
+    "categoricas__tienda_categoria_WI_1__FOODS",
+    "categoricas__tienda_categoria_WI_1__HOBBIES",
+    "categoricas__tienda_categoria_WI_1__HOUSEHOLD",
+    "categoricas__tienda_categoria_WI_2__FOODS",
+    "categoricas__tienda_categoria_WI_2__HOBBIES",
+    "categoricas__tienda_categoria_WI_2__HOUSEHOLD",
+    "categoricas__tienda_categoria_WI_3__FOODS",
+    "categoricas__tienda_categoria_WI_3__HOBBIES",
+    "categoricas__tienda_categoria_WI_3__HOUSEHOLD",
+    "ya_listas__es_fin_de_semana",
+    "ya_listas__dia_sin",
+    "ya_listas__dia_cos"
+  ],
+  "grupos": {
+    "numericas": 2,
+    "categoricas": 30,
+    "ya_listas": 3
+  },
+  "medianas_aprendidas": {
+    "YEAR": 2016.0,
+    "D_NUM": 1830.0
+  },
+  "medianas_entrenamiento": {
+    "YEAR": 2016.0,
+    "D_NUM": 1830.0
+  },
+  "medianas_toda_muestra": {
+    "YEAR": 2016.0,
+    "D_NUM": 1830.0
+  },
+  "categoria_nueva": "TIENDA_NUEVA__FOODS",
+  "forma_nuevo": [
+    1,
+    35
+  ],
+  "columnas_categoricas_activas_nuevo": 0,
+  "columnas_dummies_entrenamiento": 30,
+  "columnas_dummies_nuevo": [
+    "tienda_categoria_TIENDA_NUEVA__FOODS"
+  ],
+  "esquema_dummies_coincide": false,
+  "prueba_faltantes_artificiales": "Transformación finita; se usaron las medianas de entrenamiento",
+  "mae_correcto": 1.6523453407722446,
+  "mae_con_fuga_didactica": 1.6523453407722692,
+  "diferencia_mae": -2.4646951146678475e-14,
+  "nota": "Comparación didáctica; MAE sobre muestra sesgada, no evaluación definitiva del proyecto"
+}
