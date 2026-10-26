@@ -16,7 +16,7 @@ spec.loader.exec_module(proyecto)
 
 
 def ejecutar():
-    # TODO 1 resuelto: división por fecha, porque se predice el futuro.
+    # TODO 1 : división por fecha, porque se predice el futuro.
     datos, X_ent, X_prueba, y_ent, y_prueba, corte = proyecto.cargar_y_dividir()
     # TODO 2: tres grupos: imputación/escalado, imputación/one-hot, passthrough.
     preparacion = proyecto.construir_preparacion()
