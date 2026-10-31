@@ -1,0 +1,4 @@
+modelo,mae_prueba_completa,mae_misma_muestra_10,segundos_entrenamiento,parametros_red,costo_api_10000_viajes_usd
+Gradient boosting,1.2753524293458502,0.779388974469143,0.24283549099982338,,
+Red neuronal,1.1695052296355013,0.7251246673128922,4.076303434000238,1729.0,
+LLM (respuestas_llm_proyecto.txt),,0.4960000000000003,,,0.09127500000000001

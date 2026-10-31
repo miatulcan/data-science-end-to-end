@@ -12,6 +12,7 @@ Al final se imprime una comprobacion por paso. No la modifiques: cuando
 todas digan OK, pasa a las preguntas del README.
 """
 
+import math
 import os
 import time
 
@@ -97,33 +98,81 @@ def escribir_prompt():
     return texto
 
 
-# TODO 1: la red neuronal del Ejercicio 1, con el nombre "red neuronal".
-red = None
+# TODO 1: entrenar la red neuronal del Ejercicio 1 (64 neuronas, maximo
+# 1000 iteraciones y random_state=42).
+red = evaluar(
+    "red neuronal",
+    MLPRegressor(hidden_layer_sizes=(64,), max_iter=1000, random_state=42)
+)
 
-# TODO 2: el ensamblaje del Ejercicio 1, con el nombre "gradient boosting".
-ensamblaje = None
+# TODO 2: entrenar el gradient boosting del Ejercicio 1.
+ensamblaje = evaluar(
+    "gradient boosting",
+    GradientBoostingRegressor(random_state=42)
+)
 
-# TODO 3: mae_red_muestra y mae_ensamblaje_muestra, el error absoluto
-# medio de cada modelo sobre los 20 viajes de muestra.
-mae_red_muestra = None
-mae_ensamblaje_muestra = None
+# TODO 3: calcular el MAE de cada modelo sobre los mismos 20 viajes.
+mae_red_muestra = mean_absolute_error(y_muestra, red.predict(muestra))
+mae_ensamblaje_muestra = mean_absolute_error(y_muestra, ensamblaje.predict(muestra))
 
 prompt = escribir_prompt()
-print()
 print("prompt_llm.txt escrito:", len(prompt), "caracteres")
 
-# Paso 4: predicciones_llm, la lista de 20 numeros de respuestas_llm.txt,
-# y mae_llm, su error absoluto medio sobre los mismos 20 viajes.
+# TODO 4: guarda las 20 respuestas del LLM, una por linea, en
+# respuestas_llm.txt. La primera corrida genera el prompt antes de que
+# ese archivo exista; al volver a correr, se calculan sus predicciones y MAE.
 predicciones_llm = None
 mae_llm = None
+if os.path.exists("respuestas_llm.txt"):
+    with open("respuestas_llm.txt", "r") as archivo:
+        lineas = [linea.strip() for linea in archivo if linea.strip()]
 
+    if len(lineas) != len(muestra):
+        raise ValueError(
+            f"respuestas_llm.txt debe tener {len(muestra)} numeros; "
+            f"se encontraron {len(lineas)}."
+        )
+
+    try:
+        predicciones_llm = [float(linea) for linea in lineas]
+    except ValueError as error:
+        raise ValueError(
+            "respuestas_llm.txt debe contener solo un numero por linea."
+        ) from error
+
+    if not all(math.isfinite(prediccion) for prediccion in predicciones_llm):
+        raise ValueError("Las respuestas del LLM deben ser numeros finitos.")
+
+    mae_llm = mean_absolute_error(y_muestra, predicciones_llm)
+else:
+    print("Aun no existe respuestas_llm.txt; guarda ahi los 20 numeros del LLM.")
+
+# TODO 5: anotar el precio por millon de tokens de entrada del LLM elegido
+# y calcular el costo de estimar 10 000 viajes al mes.
+# El costo se estima en costo_10000, en dolares.
 # Paso 5: el costo de estimar 10 000 viajes al mes con el LLM, en
 # dolares, en costo_10000. Busca en la pagina de precios del proveedor
 # que usaste el precio por millon de tokens de entrada y anotalo abajo.
 # Cuenta un token cada 4 caracteres, y un prompt como este por cada 20
 # viajes; ignora los tokens de salida.
-PRECIO_POR_MILLON_DE_TOKENS = None
-costo_10000 = None
+# Referencia: GPT-4o mini por API, entrada estandar ($0.15 por millon).
+# Cambia este valor si el modelo elegido tiene otro precio.
+PRECIO_POR_MILLON_DE_TOKENS = 0.15
+if (PRECIO_POR_MILLON_DE_TOKENS is not None
+        and (not math.isfinite(PRECIO_POR_MILLON_DE_TOKENS)
+             or PRECIO_POR_MILLON_DE_TOKENS <= 0)):
+    raise ValueError("El precio por millon de tokens debe ser un numero positivo.")
+
+tokens_por_prompt = len(prompt) / 4
+prompts_al_mes = 10_000 / len(muestra)
+costo_10000 = (
+    tokens_por_prompt * prompts_al_mes / 1_000_000
+    * PRECIO_POR_MILLON_DE_TOKENS
+    if PRECIO_POR_MILLON_DE_TOKENS is not None
+    else None
+)
+if costo_10000 is None:
+    print("Anota el precio de entrada del LLM en PRECIO_POR_MILLON_DE_TOKENS.")
 
 
 def comprobar(numero, condicion):
@@ -139,6 +188,12 @@ comprobar(1, red is not None and red.named_steps["modelo"].n_iter_ < 1000)
 comprobar(2, ensamblaje is not None and isinstance(ensamblaje.named_steps["modelo"], GradientBoostingRegressor))
 comprobar(3, mae_red_muestra is not None and mae_ensamblaje_muestra is not None
           and 0 < mae_red_muestra < 3 and 0 < mae_ensamblaje_muestra < 3)
-comprobar(4, os.path.exists("respuestas_llm.txt") and predicciones_llm is not None
-          and len(predicciones_llm) == 20 and mae_llm is not None)
+comprobar(4, predicciones_llm is not None and len(predicciones_llm) == 20
+          and mae_llm is not None)
 comprobar(5, PRECIO_POR_MILLON_DE_TOKENS is not None and costo_10000 is not None and costo_10000 > 0)
+print(f"MAE en los 20 viajes: red neuronal {mae_red_muestra:.4f}, "
+      f"gradient boosting {mae_ensamblaje_muestra:.4f}")
+if mae_llm is not None:
+    print(f"MAE del LLM en los 20 viajes: {mae_llm:.4f}")
+if costo_10000 is not None:
+    print(f"Costo estimado del LLM por 10 000 viajes al mes: ${costo_10000:.6f}")
