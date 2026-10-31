@@ -37,32 +37,16 @@ Lo convierto en una columna nueva usando datos disponibles antes de vender. En l
 
 ## Ejercicio 1: fecha y calendario, adaptado a ventas
 
-<<<<<<< HEAD
 El archivo tiene fechas diarias, no horas de compra. Por eso no se pueden calcular horas pico reales. Uso `DATE` para construir el día de la semana, fin de semana y una representación cíclica del día.
 
 **Respuesta 1: distancia numérica y distancia en un ciclo.**
-=======
-Archivo: [`starter/ejercicio1_features_tiempo.py`](./starter/ejercicio1_features_tiempo.py), sobre [`starter/viajes_taxi.csv`](./starter/viajes_taxi.csv), el mismo dataset de la sesión pasada. El script ya quita los errores confirmados, convierte `fecha_hora_inicio` y compara la tarifa por kilómetro según la hora pico; faltan 4 `TODO`: hora, día de la semana, fin de semana, hora pico y la hora como ciclo. Córrelo una vez antes de tocar nada:
-
-```
-cd laboratorios/semana-09-sesion-01/starter
-python3 ejercicio1_features_tiempo.py
-```
-
-**Respuesta 1 (TODO 4), antes de ver la solución:** si dejas la hora como un número del 0 al 23, ¿qué tan lejos queda la hora 23 de la hora 0 para un modelo que mide distancias entre números? ¿Y en el reloj?
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 Entre 23 y 0 hay 23 unidades numéricas, pero en el reloj solo hay una hora. En nuestro calendario ocurre algo parecido: domingo (`6`) y lunes (`0`) están a un día, no a seis. Las columnas seno y coseno representan ese ciclo sin cortar artificialmente la semana.
 
-<<<<<<< HEAD
 **Respuesta 2: información disponible antes de predecir.**
-=======
-**Respuesta 2 (TODO 3):** sin el TODO 3, el Paso 4 muestra un solo grupo. Con la hora pico construida, ¿esperas que la tarifa por kilómetro sea más alta o más baja en hora pico? ¿Por qué, si la tarifa depende de la distancia y de la duración?
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 En taxis, la hora pico puede aportar contexto sobre tráfico esperado sin usar la duración real. En ventas, el calendario permite identificar fines de semana antes de conocer las unidades vendidas. Esto no asegura una subida de ventas, se debe comprobar con datos.
 
-<<<<<<< HEAD
 Código aplicado, incluido en [features_proyecto.py](./plantilla-features/features_proyecto.py):
 
 ```python
@@ -79,15 +63,6 @@ datos['dia_cos'] = np.cos(2 * np.pi * datos['dia_semana'] / 7)
 | Sábado y domingo | 5.478 | 1,4637 |
 
 En esta muestra el promedio es mayor en fin de semana. Es una relación descriptiva, no una prueba de causa ni de mejora predictiva.
-=======
-**Respuesta 3:** la duración del viaje no existe al pedir el taxi, pero la hora sí. ¿Qué parte de lo que la duración le diría al modelo puede traer `es_hora_pico`?
-
-_(tu respuesta)_
-
-**Lo que confirmó la salida, TODO por TODO:**
-
-_(anota la tarifa por kilómetro en cada grupo y las dos distancias del Paso 5)_
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 ## Durante el ConcepTest
 
@@ -108,15 +83,7 @@ Resuelto en [features_de_zona.py](./plantilla-ejercicio2/features_de_zona.py). S
 
 **Respuesta 1: indicador de contexto.**
 
-<<<<<<< HEAD
 Hay 1.449 registros con `precio_no_disponible = 1`. Sus unidades mínimas y máximas son 0. Cuando hay precio registrado, el promedio es 1,4016 unidades; cuando falta, es 0. El indicador permite distinguir ambos contextos. En una regresión lineal puede representar una diferencia de nivel, pero no garantiza que todas las predicciones del grupo sean exactamente cero, porque también intervienen otras columnas. La relación no demuestra que la ausencia de precio cause ventas cero.
-=======
-Solo o en pareja. Archivo: [`starter/ejercicio2_features_zona.py`](./starter/ejercicio2_features_zona.py), sobre el mismo `viajes_taxi.csv`. Completa los 4 `TODO`. Al final, el script imprime una comprobación por TODO: complétalos hasta que todas digan `OK`.
-
-```
-python3 ejercicio2_features_zona.py
-```
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 **Respuesta 2: one-hot frente a ordinal.**
 

@@ -8,24 +8,12 @@ Los ejercicios están adaptados al proyecto de ventas y al objetivo `UNITS`, sin
 
 Verificado con scikit-learn 1.9.1, pandas y numpy en el entorno `.venv` del proyecto. No fue necesario instalar paquetes. Desde la raíz del repositorio, en PowerShell:
 
-<<<<<<< HEAD
 ```powershell
 .venv/Scripts/python.exe laboratorios/semana-09-sesion-02/plantilla-pipeline/pipeline_proyecto.py
 .venv/Scripts/python.exe laboratorios/semana-09-sesion-02/plantilla-ejercicio2/pipeline_completo.py
 ```
 
 Los scripts resuelven las rutas a partir de su ubicación y también funcionan al ejecutarlos desde su carpeta. Con otro entorno de Python activado, se puede sustituir `.venv/Scripts/python.exe` por `python`.
-=======
-scikit-learn ya viene en el Codespace. En tu laptop, instálalo con `pip install -r requirements.txt` desde la raíz del repositorio. Verifica con:
-
-```
-python3 -c "import sklearn; print(sklearn.__version__)"
-```
-
-Este laboratorio usa `sparse_output=False` en `OneHotEncoder`, disponible desde scikit-learn 1.2. El `requirements.txt` del repositorio ya fija una versión posterior.
-
-Ten a mano el script de features de tu proyecto de la sesión pasada.
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 ## Antes de empezar
 
@@ -45,33 +33,17 @@ Solo con entrenamiento. A prueba le aplico esas mismas cifras sin volver a apren
 
 ## Ejercicio 1: encontrar y corregir la fuga
 
-<<<<<<< HEAD
 **Respuesta 1: ¿en qué línea entra prueba al entrenamiento?**
 Enunciado: starter/viajes_features.csv tiene los viajes de taxi con las features de la sesión pasada, sin los errores confirmados, y con la distancia 0 y los 0 pasajeros marcados como faltantes. Un compañero imputa y escala la distancia y los pasajeros con todo el dataset, después divide en entrenamiento y prueba, y entrena una regresión lineal. El código está en la diapositiva.
 
 En la llamada a `fit` o `fit_transform` del imputador o del escalador sobre todos los datos, antes de dividir. La diapositiva no está en el repositorio, por lo que no se puede indicar un número de línea original.
-=======
-Archivo: [`starter/ejercicio1_fuga.py`](./starter/ejercicio1_fuga.py), sobre [`starter/viajes_features.csv`](./starter/viajes_features.csv): los viajes de taxi con las features de la sesión pasada, sin los errores confirmados, y con la distancia 0 y los 0 pasajeros marcados como faltantes. La primera parte del script es el código de un compañero: imputa y escala la distancia y los pasajeros con todo el dataset, después divide en entrenamiento y prueba, y entrena una regresión lineal. La segunda parte es la versión correcta, con 3 `TODO`. Córrelo una vez antes de tocar nada:
-
-```
-cd laboratorios/semana-09-sesion-02/starter
-python3 ejercicio1_fuga.py
-```
-
-**Respuesta 1, antes de ver la solución:** en la versión del compañero, ¿en qué línea entra el conjunto de prueba al entrenamiento? ¿Qué número de la salida lo delata?
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 **Respuesta 2: ¿cuánto debe cambiar el MAE al corregirlo?**
 
-<<<<<<< HEAD
 No hay una cantidad garantizada, puede aumentar, disminuir o casi no cambiar. La existencia de fuga se determina por qué datos se usaron para aprender, no por el tamaño del cambio en el error.
-=======
-**Respuesta 2 (TODO 1 y 3):** sin resolver, la versión correcta dice que tiene 2975 filas de prueba. ¿Qué está midiendo ese error, si prueba y entrenamiento son las mismas filas?
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 **Resolución y resultados reales.**
 
-<<<<<<< HEAD
 [pipeline_completo.py](./plantilla-ejercicio2/pipeline_completo.py) compara dos regresiones lineales en la misma división temporal. La versión correcta incluye preparación y regresión en un `Pipeline`, ajustado únicamente con entrenamiento. La versión incorrecta está marcada como demostración y ajusta la preparación con toda la muestra.
 
 ```python
@@ -91,15 +63,6 @@ predicciones = correcto.predict(X_prueba)
 La diferencia es aproximadamente -0,000000000000025: es despreciable y compatible con redondeo numérico. En estas entradas no hay faltantes y una regresión lineal con intercepto puede compensar cambios de escala. Por eso este ejemplo no muestra una mejora visible al corregir la fuga. La versión incorrecta sigue estando mal. El MAE es un resultado didáctico sobre una muestra limitada, no una evaluación definitiva del proyecto ni una comparación con una línea base.
 
 Para esta comparación se usa `drop='first'` en el codificador, evitando la redundancia de las categorías con el intercepto. La preparación de los ejercicios 2 y 3 conserva las 30 categorías completas para mostrar claramente el conteo de columnas.
-=======
-**Respuesta 3:** ¿cuánto esperas que cambie el error absoluto medio en prueba al corregir la fuga? Si casi no cambia, ¿significa que no había fuga?
-
-_(tu respuesta)_
-
-**Lo que confirmó la salida, TODO por TODO:**
-
-_(anota las filas que vio cada escalador y los dos errores)_
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 ## Durante el ConcepTest
 
@@ -110,15 +73,7 @@ _(anota las filas que vio cada escalador y los dos errores)_
 **Cambio tras discutir:**
 ## Ejercicio 2: el pipeline completo
 
-<<<<<<< HEAD
 Solo o en pareja. Parte de la plantilla plantilla-ejercicio2/pipeline_completo.py y córrela desde su carpeta. Completa los 5 TODO: división, ColumnTransformer con tres grupos de columnas, fit solo con entrenamiento, verificación de las medianas, y un viaje desde una zona que el entrenamiento nunca vio.
-=======
-Solo o en pareja. Archivo: [`starter/ejercicio2_pipeline.py`](./starter/ejercicio2_pipeline.py), sobre el mismo `viajes_features.csv`. Completa los 5 `TODO`: división, `ColumnTransformer` con tres grupos de columnas, `fit` solo con entrenamiento, verificación de las medianas, y un viaje desde una zona que el entrenamiento nunca vio. Al final, el script imprime una comprobación por TODO: complétalos hasta que todas digan `OK`.
-
-```
-python3 ejercicio2_pipeline.py
-```
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 
 Resuelto en [pipeline_completo.py](./plantilla-ejercicio2/pipeline_completo.py), con estos cinco pasos adaptados al proyecto:

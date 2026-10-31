@@ -53,14 +53,6 @@ No. El IQR señala valores alejados del centro de la distribución, pero no demu
 
 **Respuesta 3 (TODO 3 y 4):** la regla del IQR marca más de 300 viajes con tarifa atípica. ¿Esperas que todos sean errores? ¿Cómo lo averiguarías?
 
-<<<<<<< HEAD
-=======
-_(tu respuesta)_
-
-**Lo que confirmó la salida, TODO por TODO:**
-
-_(anota el límite superior, cuántos atípicos marcó y cómo se reparten)_
->>>>>>> f9c474b3a2c2e5c9177d6177a998d779a6788b94
 
 ## Durante el ConcepTest
 
