@@ -77,21 +77,30 @@ def evaluar(nombre, modelo, grado_interacciones=None):
 
 
 # TODO 1: la misma linea base del Ejercicio 1, con el nombre "linea base".
+linea_base = DummyRegressor(strategy="median")
+evaluar("linea base", linea_base)
 
 # TODO 2: una regresion lineal sobre las interacciones de grado 3, con el
 # nombre "lineal grado 3". Guarda en columnas_grado_3 cuantas columnas
 # recibe el modelo (el atributo n_output_features_ del paso
 # "interacciones" del pipeline que devuelve evaluar).
-columnas_grado_3 = None
+lineal_grado_3 = evaluar("lineal grado 3", LinearRegression(), grado_interacciones=3)
+columnas_grado_3 = lineal_grado_3.named_steps["interacciones"].n_output_features_
 
 # TODO 3: la misma regresion, regularizada con Ridge(alpha=10.0), con el
 # nombre "ridge grado 3".
+evaluar("ridge grado 3", Ridge(alpha=10.0), grado_interacciones=3)
 
 # Paso 4: un ensamblaje por boosting, con el nombre "gradient boosting".
+# Asegura que el modelo no sea un DummyRegressor ni un modelo que no aprenda.
+# Se usa la version estandar de GradientBoostingRegressor con semilla fijada.
+evaluar("gradient boosting", GradientBoostingRegressor(random_state=42))
 
 # Paso 5: guarda la tabla en resultados_ejercicio2.csv y deja en "mejor"
 # el nombre del modelo con menor error en prueba.
-mejor = None
+tabla = pd.DataFrame(resultados)
+tabla.to_csv("resultados_ejercicio2.csv", index=False)
+mejor = tabla.sort_values("mae_prueba").iloc[0]["modelo"]
 
 
 def comprobar(numero, condicion):

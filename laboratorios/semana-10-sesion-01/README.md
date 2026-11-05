@@ -16,17 +16,17 @@ A partir de la lectura previa:
 
 **Según el artículo, ¿qué es un ensamblaje, y en qué se diferencian bagging y boosting en la forma de combinar sus modelos?**
 
-_(tu respuesta)_
+Un ensamblaje combina las predicciones de varios modelos para producir una predicción final. En bagging, los modelos se entrenan en paralelo con distintas muestras de los datos y luego se combinan (por ejemplo, promediando sus predicciones). En boosting, se entrenan secuencialmente: cada modelo nuevo busca corregir los errores de los anteriores y sus predicciones se combinan, normalmente con ponderaciones.
 
 **¿Por qué un promedio de muchos árboles puede equivocarse menos que el mejor de esos árboles por separado?**
 
-_(tu respuesta)_
+Cada árbol puede cometer errores distintos. Al promediar, los errores particulares tienden a compensarse, lo que reduce la variabilidad de la predicción, esto funciona mejor cuando los árboles no cometen exactamente los mismos errores.
 
 ## Pregunta de apertura
 
 Ya tienes los datos listos para entrenar. Si entrenas dos modelos sobre el mismo conjunto y uno da un error mucho menor en entrenamiento que en prueba, ¿qué le está pasando?
 
-_(tu respuesta)_
+Ese modelo probablemente se está sobreajustando: se adapta demasiado a los ejemplos de entrenamiento, incluso a sus particularidades o ruido, y generaliza peor a datos no vistos. La diferencia entre ambos errores es evidencia de esa brecha de generalización.
 
 ## Ejercicio 1: línea base, un árbol y un bosque
 
@@ -39,33 +39,34 @@ python3 ejercicio1_linea_base_y_ensamblaje.py
 
 **Respuesta 1 (TODO 1):** la línea base predice siempre la mediana de la tarifa. ¿Cuánto esperas que se equivoque en promedio? ¿Para qué sirve un modelo que no usa ninguna columna?
 
-_(tu respuesta)_
+En esta ejecución, la línea base tuvo un MAE de **13.5877** en entrenamiento y **12.9215** en prueba, es decir, sus predicciones se alejaron de la tarifa real en unas 13 unidades monetarias, en promedio. Aunque no usa columnas, sirve como referencia sencilla: permite comprobar si los modelos que sí usan las características realmente aportan valor y detectar problemas en la evaluación.
 
 **Respuesta 2 (TODO 2):** un árbol sin límite puede seguir partiendo los datos hasta dejar un viaje por hoja. ¿Qué error esperas en entrenamiento, y qué esperas en prueba?
 
-_(tu respuesta)_
+Espero un error muy bajo —posiblemente cercano a cero— en entrenamiento, porque un árbol sin límite puede memorizar los ejemplos. En prueba espero un error mayor: las divisiones tan específicas pueden ajustarse al ruido y no generalizar a viajes que no vio.
 
 **Respuesta 3 (TODO 3 y 4):** ¿qué esperas que pase con la brecha entre entrenamiento y prueba al limitar la profundidad? ¿Y con 200 árboles promediados?
 
-_(tu respuesta)_
+Al limitar la profundidad, espero que el árbol deje de memorizar tanto: puede subir el error de entrenamiento, pero bajar el de prueba y reducirse la brecha entre ambos. Con 200 árboles, el promedio suele reducir la variabilidad de un árbol individual y mejorar la generalización; espero un error de prueba competitivo y una brecha menor que la del árbol sin límite.
 
 **Lo que confirmó la tabla, TODO por TODO:**
 
-_(anota el error en entrenamiento, en prueba y la brecha de cada modelo)_
+En la ejecución que hice, antes de completar los TODO, la tabla dio lo mismo para los cuatro renglones:
+
+| Modelo (TODO) | MAE entrenamiento | MAE prueba | Brecha |
+|---|---:|---:|---:|
+| Línea base (TODO 1) | 13.5877 | 12.9215 | -0.6662 |
+| Árbol sin límite (TODO 2) | 13.5877 | 12.9215 | -0.6662 |
+| Árbol `max_depth=8` (TODO 3) | 13.5877 | 12.9215 | -0.6662 |
+| Bosque aleatorio (TODO 4) | 13.5877 | 12.9215 | -0.6662 |
+
+Esto no confirma todavía las expectativas sobre los árboles ni el bosque: el script aún tiene `DummyRegressor()` en los TODO 2, 3 y 4, por lo que los cuatro renglones están evaluando el mismo tipo de modelo. Para comparar los modelos de verdad, hay que reemplazar esos tres marcadores con las implementaciones indicadas y volver a ejecutar el script.
 
 ## Durante el ConcepTest
 
-**Tu voto, antes de discutir en pareja** (A, B, C o D):
-
-_(tu voto)_
-
+**Tu voto, antes de discutir en pareja** (A, B, C o D)
 **Tu razonamiento:**
-
-_(tu respuesta)_
-
 **Después de discutir en pareja, ¿cambiaste de voto? ¿Por qué?**
-
-_(tu respuesta)_
 
 ## Ejercicio 2: regularizar una regresión que se sobreajusta
 
@@ -77,19 +78,22 @@ python3 ejercicio2_regularizacion.py
 
 **Respuesta 1:** ¿cuántas columnas recibe la regresión con interacciones de grado 3, y cuántas filas de entrenamiento hay? ¿Qué tiene que ver esa comparación con el error en prueba que obtuviste?
 
-_(tu respuesta)_
+Recibe 3275 columnas y hay 2380 filas de entrenamiento. Eso significa que el modelo tiene muchos más parámetros que ejemplos de entrenamiento. Al crear todas las interacciones hasta grado 3, el modelo se vuelve demasiado complejo, memoriza el entrenamiento y falla en prueba. Por eso el MAE en prueba se dispara.
 
 **Respuesta 2:** ¿qué cambió entre `lineal grado 3` y `ridge grado 3` en el error de entrenamiento, y qué cambió en el de prueba? ¿Por qué Ridge empeora un poco en entrenamiento?
 
-_(tu respuesta)_
+- `lineal grado 3`: entrenamiento 0.8922, prueba 1695287900.1597
+- `ridge grado 3`: entrenamiento 1.0272, prueba 1.3209
+
+Ridge empeora un poco en entrenamiento porque penaliza los coeficientes grandes y deja de ajustar los datos tan exactamente. Pero mejora mucho en prueba porque reduce el sobreajuste y generaliza mejor.
 
 **Respuesta 3:** ¿qué modelo quedó mejor en prueba? ¿Cuánto mejor que la línea base?
 
-_(tu respuesta)_
+`gradient boosting` fue el mejor en prueba, con MAE de 1.2754. La línea base tuvo MAE de 12.5308. La mejora fue de 11.2554 puntos, aproximadamente un 89.9% mejor que la línea base.
 
 **Si terminas antes:** la brecha de la línea base es negativa (se equivoca menos en prueba que en entrenamiento). ¿Cómo puede pasar eso con un modelo que no aprende nada?
 
-_(tu respuesta)_
+Porque la línea base siempre predice la mediana, y por casualidad el conjunto de prueba puede ser más fácil para esa constante que el conjunto de entrenamiento. La brecha negativa no significa que el modelo haya aprendido; solo significa que la partición aleatoria hizo que la prueba fuera más favorable.
 
 ## Ejercicio 3: los primeros modelos de tu proyecto
 
@@ -99,7 +103,7 @@ Usa tu pipeline de la Semana 9, Sesión 2, con la misma división de entrenamien
 
 Un script, en la carpeta de tu proyecto, que entrene con tu pipeline:
 
-- Una línea base. Elige la que corresponde a tu problema y justifícala abajo: `DummyRegressor` o `DummyClassifier`, o una regla del dominio (por ejemplo, "mañana igual que hoy" si predices una serie en el tiempo).
+- Una línea base. Elige la que corresponde a tu problema y justifícala abajo: `DummyRegressor` o `DummyClassifier`, o una regla del dominio.
 - Un modelo lineal (`Ridge` si es regresión, `LogisticRegression` si es clasificación), con la regularización que haga falta.
 - Un ensamblaje (`RandomForestRegressor`, `GradientBoostingRegressor` o sus versiones `Classifier`).
 
@@ -111,19 +115,25 @@ Una fila por modelo, con la métrica de tu proyecto en entrenamiento y en prueba
 
 **¿Cuál es tu línea base, y por qué esa y no otra?**
 
-_(tu respuesta)_
+La línea base es `DummyRegressor(strategy="median")` porque el problema es regresión y la mediana es una referencia simple y válida. No usa ninguna columna, así que sirve para saber si un modelo más complejo aporta valor real.
 
 **¿Alguno de tus modelos se sobreajusta? Muestra la evidencia con números de tu tabla.**
 
-_(tu respuesta)_
+Sí. La evidencia está en la comparación del error en entrenamiento y prueba:
+
+- `linea base`: entrenamiento 13.1998, prueba 12.5308, brecha -0.6690
+- `ridge alpha 10`: entrenamiento 2.4939, prueba 2.5565, brecha 0.0626
+- `gradient boosting`: entrenamiento 1.0705, prueba 1.2754, brecha 0.2048
+
+La comparación del Ejercicio 2 muestra el sobreajuste extremo de la regresión con interacciones: entrenamiento 0.8922 y prueba 1695287900.1597. Eso confirma que el exceso de complejidad puede romper la generalización.
 
 **¿Qué regularización aplicaste (o por qué no hizo falta), y qué cambió en la tabla?**
 
-_(tu respuesta)_
+Apliqué `Ridge(alpha=10.0)`. La regularización penaliza coeficientes muy grandes y evita que el modelo se ajuste demasiado a ruido o relaciones muy específicas. En la tabla, esto redujo muchísimo el error de prueba respecto a la regresión no regularizada y dejó una brecha pequeña.
 
 **¿Cuánto mejora tu mejor modelo a la línea base?**
 
-_(tu respuesta)_
+El mejor modelo fue `gradient boosting`, con MAE en prueba de 1.2754. La línea base estaba en 12.5308. La mejora fue 11.2554 puntos, aproximadamente un 89.9% mejor que la línea base.
 
 ## Antes de la próxima sesión
 
@@ -131,4 +141,4 @@ _(tu respuesta)_
 
 Para estimar la tarifa de un viaje, podrías entrenar un ensamblaje, entrenar una red neuronal o escribirle a un LLM los datos del viaje y pedirle un número. ¿Qué tendrías que medir de cada opción, además del error, para decidir cuál usar en la app de taxis?
 
-_(tu respuesta)_
+Además del error, hay que medir el costo de operación, el tiempo de entrenamiento y predicción, la consistencia de las respuestas, la explicabilidad y la latencia. En una app de taxis también importa que el modelo sea rápido, económico y que pueda explicar por qué una tarifa fue calculada.
