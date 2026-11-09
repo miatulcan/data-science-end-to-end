@@ -30,7 +30,7 @@ Ese modelo probablemente se está sobreajustando: se adapta demasiado a los ejem
 
 ## Ejercicio 1: línea base, un árbol y un bosque
 
-Archivo: [`starter/ejercicio1_linea_base_y_ensamblaje.py`](./starter/ejercicio1_linea_base_y_ensamblaje.py), sobre [`starter/viajes_features.csv`](./starter/viajes_features.csv), el mismo de la sesión pasada. El script ya trae la preparación de la Semana 9 y una función `evaluar` que entrena cada modelo, mide el error absoluto medio en entrenamiento y en prueba, y lo registra en una tabla. Los 4 `TODO` son los modelos. Córrelo una vez antes de tocar nada:
+Archivo: [`starter/ejercicio1_linea_base_y_ensamblaje.py`](./starter/ejercicio1_linea_base_y_ensamblaje.py), sobre [`starter/viajes_features.csv`](./starter/viajes_features.csv), el mismo de la sesión pasada. El script ya trae la preparación de la Semana 9 y una función `evaluar` que entrena cada modelo, mide el error absoluto medio en entrenamiento y en prueba, y lo registra en una tabla. El ejercicio compara una línea base, un árbol sin límite, el mismo árbol limitado y un bosque aleatorio:
 
 ```
 cd laboratorios/semana-10-sesion-01/starter
@@ -39,28 +39,28 @@ python3 ejercicio1_linea_base_y_ensamblaje.py
 
 **Respuesta 1 (TODO 1):** la línea base predice siempre la mediana de la tarifa. ¿Cuánto esperas que se equivoque en promedio? ¿Para qué sirve un modelo que no usa ninguna columna?
 
-En esta ejecución, la línea base tuvo un MAE de **13.5877** en entrenamiento y **12.9215** en prueba, es decir, sus predicciones se alejaron de la tarifa real en unas 13 unidades monetarias, en promedio. Aunque no usa columnas, sirve como referencia sencilla: permite comprobar si los modelos que sí usan las características realmente aportan valor y detectar problemas en la evaluación.
+En esta ejecución, la línea base tuvo un MAE de **13.1998** en entrenamiento y **12.5308** en prueba, es decir, sus predicciones se alejaron de la tarifa real en unas 13 unidades monetarias, en promedio. Aunque no usa columnas, sirve como referencia sencilla: permite comprobar si los modelos que sí usan las características realmente aportan valor y detectar problemas en la evaluación.
 
 **Respuesta 2 (TODO 2):** un árbol sin límite puede seguir partiendo los datos hasta dejar un viaje por hoja. ¿Qué error esperas en entrenamiento, y qué esperas en prueba?
 
-Espero un error muy bajo —posiblemente cercano a cero— en entrenamiento, porque un árbol sin límite puede memorizar los ejemplos. En prueba espero un error mayor: las divisiones tan específicas pueden ajustarse al ruido y no generalizar a viajes que no vio.
+El árbol sin límite obtuvo MAE **0.0029** en entrenamiento y **1.7017** en prueba. El error casi nulo en entrenamiento confirma que memoriza los ejemplos; la diferencia en prueba muestra que no generaliza igual de bien.
 
 **Respuesta 3 (TODO 3 y 4):** ¿qué esperas que pase con la brecha entre entrenamiento y prueba al limitar la profundidad? ¿Y con 200 árboles promediados?
 
-Al limitar la profundidad, espero que el árbol deje de memorizar tanto: puede subir el error de entrenamiento, pero bajar el de prueba y reducirse la brecha entre ambos. Con 200 árboles, el promedio suele reducir la variabilidad de un árbol individual y mejorar la generalización; espero un error de prueba competitivo y una brecha menor que la del árbol sin límite.
+Con `max_depth=8`, el árbol obtuvo MAE **1.0098** en entrenamiento y **1.2728** en prueba: el error de entrenamiento subió, pero el de prueba bajó y la brecha se redujo a **0.2630**. El bosque de 200 árboles obtuvo **0.4739** en entrenamiento y **1.3016** en prueba, con brecha **0.8276**. En esta corrida, el árbol limitado tuvo el menor error de prueba; el bosque mejoró frente al árbol sin límite, pero no superó al árbol limitado.
 
 **Lo que confirmó la tabla, TODO por TODO:**
 
-En la ejecución que hice, antes de completar los TODO, la tabla dio lo mismo para los cuatro renglones:
+Con los cuatro modelos implementados, la tabla dio:
 
 | Modelo (TODO) | MAE entrenamiento | MAE prueba | Brecha |
 |---|---:|---:|---:|
-| Línea base (TODO 1) | 13.5877 | 12.9215 | -0.6662 |
-| Árbol sin límite (TODO 2) | 13.5877 | 12.9215 | -0.6662 |
-| Árbol `max_depth=8` (TODO 3) | 13.5877 | 12.9215 | -0.6662 |
-| Bosque aleatorio (TODO 4) | 13.5877 | 12.9215 | -0.6662 |
+| Línea base (TODO 1) | 13.1998 | 12.5308 | -0.6690 |
+| Árbol sin límite (TODO 2) | 0.0029 | 1.7017 | 1.6988 |
+| Árbol `max_depth=8` (TODO 3) | 1.0098 | 1.2728 | 0.2630 |
+| Bosque aleatorio (TODO 4) | 0.4739 | 1.3016 | 0.8276 |
 
-Esto no confirma todavía las expectativas sobre los árboles ni el bosque: el script aún tiene `DummyRegressor()` en los TODO 2, 3 y 4, por lo que los cuatro renglones están evaluando el mismo tipo de modelo. Para comparar los modelos de verdad, hay que reemplazar esos tres marcadores con las implementaciones indicadas y volver a ejecutar el script.
+El árbol sin límite sobreajusta: casi memoriza el entrenamiento, pero tiene el mayor MAE en prueba. Limitar la profundidad reduce esa brecha y produjo el menor MAE de prueba de los cuatro modelos. El bosque también reduce el error de prueba frente al árbol sin límite, aunque en esta partición queda ligeramente por detrás del árbol limitado. Los tiempos pueden variar entre ejecuciones.
 
 ## Durante el ConcepTest
 
@@ -115,25 +115,25 @@ Una fila por modelo, con la métrica de tu proyecto en entrenamiento y en prueba
 
 **¿Cuál es tu línea base, y por qué esa y no otra?**
 
-La línea base es `DummyRegressor(strategy="median")` porque el problema es regresión y la mediana es una referencia simple y válida. No usa ninguna columna, así que sirve para saber si un modelo más complejo aporta valor real.
+La línea base es `DummyRegressor(strategy="median")` porque `UNITS` es una variable numérica y estamos resolviendo una regresión. La mediana es una referencia robusta y simple que no usa las características; así comprobamos si los modelos más complejos realmente agregan valor.
 
 **¿Alguno de tus modelos se sobreajusta? Muestra la evidencia con números de tu tabla.**
 
-Sí. La evidencia está en la comparación del error en entrenamiento y prueba:
+No aparece evidencia de sobreajuste fuerte: las diferencias entre MAE de entrenamiento y prueba son pequeñas. En la tabla del proyecto:
 
-- `linea base`: entrenamiento 13.1998, prueba 12.5308, brecha -0.6690
-- `ridge alpha 10`: entrenamiento 2.4939, prueba 2.5565, brecha 0.0626
-- `gradient boosting`: entrenamiento 1.0705, prueba 1.2754, brecha 0.2048
+- `linea base`: entrenamiento 1.2821, prueba 1.3956, brecha 0.1135
+- `ridge alpha 10`: entrenamiento 1.6151, prueba 1.6383, brecha 0.0231
+- `gradient boosting`: entrenamiento 1.6089, prueba 1.6506, brecha 0.0417
 
-La comparación del Ejercicio 2 muestra el sobreajuste extremo de la regresión con interacciones: entrenamiento 0.8922 y prueba 1695287900.1597. Eso confirma que el exceso de complejidad puede romper la generalización.
+En los tres casos el error de prueba es un poco mayor que el de entrenamiento, pero no hay una brecha grande. Además, la línea base obtiene el menor MAE en prueba.
 
 **¿Qué regularización aplicaste (o por qué no hizo falta), y qué cambió en la tabla?**
 
-Apliqué `Ridge(alpha=10.0)`. La regularización penaliza coeficientes muy grandes y evita que el modelo se ajuste demasiado a ruido o relaciones muy específicas. En la tabla, esto redujo muchísimo el error de prueba respecto a la regresión no regularizada y dejó una brecha pequeña.
+Apliqué `Ridge(alpha=10.0)`, que penaliza coeficientes grandes. Su brecha fue pequeña (0.0231), pero su MAE en prueba (1.6383) fue mayor que el de la línea base (1.3956). Por tanto, en esta muestra la regularización no hizo que Ridge superara la referencia simple.
 
 **¿Cuánto mejora tu mejor modelo a la línea base?**
 
-El mejor modelo fue `gradient boosting`, con MAE en prueba de 1.2754. La línea base estaba en 12.5308. La mejora fue 11.2554 puntos, aproximadamente un 89.9% mejor que la línea base.
+Ningún modelo entrenado mejoró la línea base en prueba. La línea base obtuvo MAE 1.3956; Ridge obtuvo 1.6383 y gradient boosting 1.6506. El mejor resultado general de esta comparación es, por tanto, la línea base. Gradient boosting tuvo un error 0.2549 mayor que ella. Los archivos del proyecto de supermercado están en [`proyecto-supermercado/`](./proyecto-supermercado/): allí están `modelos_proyecto.py` y el CSV producido.
 
 ## Antes de la próxima sesión
 

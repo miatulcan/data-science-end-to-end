@@ -1,0 +1,4 @@
+modelo,mae_prueba_completa,mae_misma_muestra_10,segundos_entrenamiento,parametros_red,fecha_corte,filas_entrenamiento,filas_prueba,fuente_predicciones
+gradient boosting,1.6505642039901898,1.155677819893334,1.1930823319999035,,2016-04-03,16838,3162,
+red neuronal,1.758381428245333,1.4489176028137885,12.618754613999954,2369.0,2016-04-03,16838,3162,
+LLM,,0.5,,,2016-04-03,16838,3162,asistente de esta conversación; sin API externa
