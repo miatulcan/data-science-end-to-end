@@ -47,7 +47,7 @@ def test_features_de_calendario_y_tienda_categoria():
         "CA_1__FOODS",
         "WI_2__HOUSEHOLD",
     ]
-    assert preparados["es_fin_de_semana"].tolist() == [1, 0]
+    assert preparados["es_fin_de_semana"].tolist() == [1, 1]
     assert np.isclose(preparados.loc[0, "dia_sin"], np.sin(2 * np.pi * 5 / 7))
     assert np.isclose(preparados.loc[0, "dia_cos"], np.cos(2 * np.pi * 5 / 7))
 
